@@ -14,9 +14,10 @@ const getData = async () => {
 
   const tables = await page.evaluate(() => {
     const table = document.querySelector('table');
-    const toy_num = table.querySelector('tbody > tr > td').innerText;
+    const rows = table.querySelector('tbody > tr:not(:first-child)').innerText;
+    /* const toy_num = rows[0].querySelector('td').innerText; */
 
-    return { toy_num };
+    return { rows };
   });
 
   console.log(tables);

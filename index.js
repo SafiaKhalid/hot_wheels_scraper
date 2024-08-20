@@ -13,10 +13,30 @@ const getData = async () => {
   });
 
   const tables = await page.evaluate(() => {
-    const table = document.querySelector('table');
-    const toy_num = table.querySelector('tbody > tr > td').innerText;
+    const table = document.querySelector('table.wikitable');
+    const headingsRow = table.querySelectorAll('tbody > tr > th');
+    let headingsArray = [];
 
-    return { toy_num };
+    headingsRow.forEach((heading) => {
+      headingsArray.push(heading.innerText);
+    });
+
+    const rows = table.querySelectorAll('tbody > tr:not(:first-child)');
+
+    let year_models = [];
+
+    rows.forEach((row) => {
+      const object = {
+        [headingsArray[0]]: row.querySelectorAll('td')[0].innerText,
+        [headingsArray[1]]: row.querySelectorAll('td')[1].innerText,
+        [headingsArray[2]]: row.querySelectorAll('td')[2].innerText,
+        [headingsArray[3]]: row.querySelectorAll('td')[3].innerText,
+        [headingsArray[4]]: row.querySelectorAll('td')[4].innerText,
+      };
+      year_models.push(object);
+    });
+
+    return { headingsArray, year_models };
   });
 
   console.log(tables);

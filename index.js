@@ -13,11 +13,25 @@ const getData = async () => {
   });
 
   const tables = await page.evaluate(() => {
-    const table = document.querySelector('table');
-    const rows = table.querySelector('tbody > tr:not(:first-child)').innerText;
-    /* const toy_num = rows[0].querySelector('td').innerText; */
+    const table = document.querySelector('table.wikitable');
+    const headingsRow = table.querySelectorAll('tbody > tr > th');
+    let headingsArray = [];
 
-    return { rows };
+    headingsRow.forEach((heading) => {
+      headingsArray.push(heading.innerText);
+    });
+
+    /* headings.forEach((heading) => {
+      headingsArray.push(heading.innerText);
+    }); */
+    /* const rows = table.querySelectorAll('tbody > tr:not(:first-child)');
+    let toys = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      toys.push(rows[i].querySelector('td').innerText);
+    } */
+
+    return { headingsRow, headingsArray };
   });
 
   console.log(tables);

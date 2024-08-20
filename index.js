@@ -21,17 +21,22 @@ const getData = async () => {
       headingsArray.push(heading.innerText);
     });
 
-    /* headings.forEach((heading) => {
-      headingsArray.push(heading.innerText);
-    }); */
-    /* const rows = table.querySelectorAll('tbody > tr:not(:first-child)');
-    let toys = [];
+    const rows = table.querySelectorAll('tbody > tr:not(:first-child)');
 
-    for (let i = 0; i < rows.length; i++) {
-      toys.push(rows[i].querySelector('td').innerText);
-    } */
+    let year_models = [];
 
-    return { headingsRow, headingsArray };
+    rows.forEach((row) => {
+      const object = {
+        [headingsArray[0]]: row.querySelectorAll('td')[0].innerText,
+        [headingsArray[1]]: row.querySelectorAll('td')[1].innerText,
+        [headingsArray[2]]: row.querySelectorAll('td')[2].innerText,
+        [headingsArray[3]]: row.querySelectorAll('td')[3].innerText,
+        [headingsArray[4]]: row.querySelectorAll('td')[4].innerText,
+      };
+      year_models.push(object);
+    });
+
+    return { headingsArray, year_models };
   });
 
   console.log(tables);

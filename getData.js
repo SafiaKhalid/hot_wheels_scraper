@@ -33,14 +33,27 @@ const getData = async () => {
 
             let rowsNested = [];
             rows.forEach((row) => {
-                rowsNested.push(row.innerText);
+                rowsNested.push(row);
             });
             rowsArrays.push(rowsNested);
         });
 
         let year_models = [];
 
-        return { headingRows, rowsArrays, year_models };
+        headingRows.forEach((headingRow, headingRowIndex) => {
+            rowsArrays[headingRowIndex].forEach((row) => {
+                let modelObject = {};
+
+                headingRow.forEach((heading, headingIndex) => {
+                    modelObject[heading] =
+                        row.querySelectorAll('td')[headingIndex].innerText;
+                });
+
+                year_models.push(modelObject);
+            });
+        });
+
+        return { year_models };
     });
 
     console.log(tables);

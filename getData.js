@@ -1,56 +1,63 @@
 import puppeteer from 'puppeteer';
 
-const getData = async () => {
-    const loadData = () => {
-        const tables = document.querySelectorAll('table:not(:last-child)');
+const getDataNodeList = async (year) => {
+    const loadData = (year) => {
+        //Single table
+        /* let yearModels = [];
 
-        let headingRows = [];
-        let rowsArrays = [];
-        let tableOption;
+        const table = document.querySelector('table');
+        const headings = table.querySelectorAll('tr > th');
+        const rows = table.querySelectorAll('tr:not(:first-child)');
+
+        rows.forEach((row) => {
+            let object = {};
+
+            headings.forEach((heading, index) => {
+                object[heading.innerText] =
+                    row.querySelectorAll('td')[index].innerText;
+            });
+            yearModels.push(object);
+        }); */
+
+        let yearTest = [];
+
+        const tables = document.querySelectorAll('table:not(.mw-collapisble)');
 
         tables.forEach((table) => {
+            //Check if table has headers
+            const tableHead =
+                table.firstElementChild.firstElementChild.firstElementChild
+                    .nodeName;
             let headings;
             let rows;
-
-            if (table.firstElementChild.nodeName == 'thead') {
+            if (tableHead === 'TH') {
                 headings = table.querySelectorAll('tr > th');
-                rows = table.querySelectorAll('tbody > tr');
-                tableOption = 'heading and body';
+                rows = table.querySelectorAll('tr:not(:first-child)');
             } else {
-                headings = table.querySelectorAll('tr:first-child > td');
-                rows = table.querySelectorAll('tbody > tr');
-                tableOption = 'body';
+                const headingsRow = table.querySelector('tr');
+                headings = headingsRow.querySelectorAll('td');
+                rows = table.querySelectorAll('tbody > tr:not(:first-child)');
             }
 
-            let headingNested = [];
-            headings.forEach((heading) => {
-                headingNested.push(heading.textContent);
-            });
-            headingRows.push(headingNested);
-
-            let rowsNested = [];
             rows.forEach((row) => {
-                rowsNested.push(row);
-            });
-            rowsArrays.push(rowsNested);
-        });
+                let object = {};
 
-        let year_models = [];
+                headings.forEach((heading, index) => {
+                    const rowContent = row.querySelectorAll('td');
 
-        headingRows.forEach((headingRow, headingRowIndex) => {
-            rowsArrays[headingRowIndex].forEach((row) => {
-                let modelObject = {};
-
-                headingRow.forEach((heading, headingIndex) => {
-                    modelObject[heading] =
-                        row.querySelectorAll('td')[headingIndex].textContent;
+                    //Check if any items in row are undefined
+                    if (rowContent[index]) {
+                        object[heading.innerText] = rowContent[index].innerText;
+                    } else {
+                        object[heading.innerText] = '';
+                    }
                 });
 
-                year_models.push(modelObject);
+                yearTest.push(object);
             });
         });
 
-        return { year_models, tableOption };
+        return { yearTest };
     };
 
     const browser = await puppeteer.launch({
@@ -61,7 +68,7 @@ const getData = async () => {
     const page = await browser.newPage();
 
     await page.goto(
-        'https://hotwheels.fandom.com/wiki/List_of_1998_Hot_Wheels',
+        `https://hotwheels.fandom.com/wiki/List_of_${year}_Hot_Wheels`,
         {
             waitUntil: 'domcontentloaded',
         }
@@ -74,6 +81,4 @@ const getData = async () => {
     await browser.close();
 };
 
-export default getData;
-
-//Check rest of dates
+export default getDataNodeList;

@@ -36,29 +36,39 @@ var getData = function getData() {
         case 8:
           _context.next = 10;
           return regeneratorRuntime.awrap(page.evaluate(function () {
-            var table = document.querySelector('table.wikitable');
-            var headingsRow = table.querySelectorAll('tr > th');
-            var headingsArray = [];
-            headingsRow.forEach(function (heading) {
-              headingsArray.push(heading.innerText);
+            var tables = document.querySelectorAll('table.wikitable');
+            var headingRows = [];
+            var rows = [];
+            tables.forEach(function (table) {
+              headingRows.push(table.querySelectorAll('tr > th').innerText);
+              rows.push(table.querySelectorAll('tbody > tr:not(:first-child)'));
             });
-            var rows = table.querySelectorAll('tbody > tr:not(:first-child)');
-            var year_models = [];
-            rows.forEach(function (row) {
-              var object = {
-                /* [headingsArray[0]]: row.querySelectorAll('td')[0].innerText,
-                [headingsArray[1]]: row.querySelectorAll('td')[1].innerText,
-                [headingsArray[2]]: row.querySelectorAll('td')[2].innerText,
-                [headingsArray[3]]: row.querySelectorAll('td')[3].innerText,
-                [headingsArray[4]]: row.querySelectorAll('td')[4].innerText, */
-              };
-              headingsArray.forEach(function (heading, index) {
-                object[heading] = row.querySelectorAll('td')[index].innerText;
-              });
-              year_models.push(object);
-            });
+            var year_models = []; //each table
+
+            /* headingRows.forEach((headingRow, arrayIndex) => {
+                headingRow.forEach((heading, index) => {
+                    let object = {};
+                    object[heading] =
+                        rows[arrayIndex].querySelectorAll('td')[index].innerText;
+                });
+            }); */
+
+            /* rows.forEach((row) => {
+                let object = {
+                    [headingsArray[0]]: row.querySelectorAll('td')[0].innerText,
+            [headingsArray[1]]: row.querySelectorAll('td')[1].innerText,
+            [headingsArray[2]]: row.querySelectorAll('td')[2].innerText,
+            [headingsArray[3]]: row.querySelectorAll('td')[3].innerText,
+            [headingsArray[4]]: row.querySelectorAll('td')[4].innerText,
+                };
+                  headingsArray.forEach((heading, index) => {
+                    object[heading] = row.querySelectorAll('td')[index].innerText;
+                });
+                  year_models.push(object);
+            }); */
+
             return {
-              headingsArray: headingsArray,
+              headingRows: headingRows,
               year_models: year_models
             };
           }));

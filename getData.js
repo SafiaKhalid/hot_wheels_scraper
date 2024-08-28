@@ -1,51 +1,83 @@
 import puppeteer from 'puppeteer';
 
-const getData = async () => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    defaultViewport: null,
-  });
+const getData = async (year) => {
+    const loadData = () => {
+        //Single table
+        /* let yearModels = [];
 
-  const page = await browser.newPage();
+        const table = document.querySelector('table');
+        const headings = table.querySelectorAll('tr > th');
+        const rows = table.querySelectorAll('tr:not(:first-child)');
 
-  await page.goto('https://hotwheels.fandom.com/wiki/List_of_1978_Hot_Wheels', {
-    waitUntil: 'domcontentloaded',
-  });
+        rows.forEach((row) => {
+            let object = {};
 
-  const tables = await page.evaluate(() => {
-    const table = document.querySelector('table.wikitable');
-    const headingsRow = table.querySelectorAll('tr > th');
-    let headingsArray = [];
+            headings.forEach((heading, index) => {
+                object[heading.innerText] =
+                    row.querySelectorAll('td')[index].innerText;
+            });
+            yearModels.push(object);
+        }); */
 
-    headingsRow.forEach((heading) => {
-      headingsArray.push(heading.innerText);
+        let yearArray = [];
+
+        const tables = document.querySelectorAll('table:not(.mw-collapisble)');
+
+        tables.forEach((table) => {
+            //Check if table has headers
+            const tableHead =
+                table.firstElementChild.firstElementChild.firstElementChild
+                    .nodeName;
+            let headings;
+            let rows;
+            if (tableHead === 'TH') {
+                headings = table.querySelectorAll('tr > th');
+                rows = table.querySelectorAll('tr:not(:first-child)');
+            } else {
+                const headingsRow = table.querySelector('tr');
+                headings = headingsRow.querySelectorAll('td');
+                rows = table.querySelectorAll('tbody > tr:not(:first-child)');
+            }
+
+            rows.forEach((row) => {
+                let object = {};
+
+                headings.forEach((heading, index) => {
+                    const rowContent = row.querySelectorAll('td');
+
+                    //Check if any items in row are undefined
+                    if (rowContent[index]) {
+                        object[heading.innerText] = rowContent[index].innerText;
+                    } else {
+                        object[heading.innerText] = '';
+                    }
+                });
+
+                yearArray.push(object);
+            });
+        });
+
+        return yearArray;
+    };
+
+    const browser = await puppeteer.launch({
+        headless: false,
+        defaultViewport: null,
     });
 
-    const rows = table.querySelectorAll('tbody > tr:not(:first-child)');
+    const page = await browser.newPage();
 
-    let year_models = [];
+    await page.goto(
+        `https://hotwheels.fandom.com/wiki/List_of_${year}_Hot_Wheels`,
+        {
+            waitUntil: 'domcontentloaded',
+        }
+    );
 
-    rows.forEach((row) => {
-      let object = {
-        /* [headingsArray[0]]: row.querySelectorAll('td')[0].innerText,
-        [headingsArray[1]]: row.querySelectorAll('td')[1].innerText,
-        [headingsArray[2]]: row.querySelectorAll('td')[2].innerText,
-        [headingsArray[3]]: row.querySelectorAll('td')[3].innerText,
-        [headingsArray[4]]: row.querySelectorAll('td')[4].innerText, */
-      };
-      headingsArray.forEach((heading, index) => {
-        object[heading] = row.querySelectorAll('td')[index].innerText;
-      });
+    const tables = await page.evaluate(loadData);
 
-      year_models.push(object);
-    });
-
-    return { headingsArray, year_models };
-  });
-
-  console.log(tables);
-
-  await browser.close();
+    await browser.close();
+    return tables;
 };
 
 export default getData;

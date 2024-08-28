@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-const getDataNodeList = async (year) => {
+const getData = async (year) => {
     const loadData = () => {
         //Single table
         /* let yearModels = [];
@@ -76,9 +76,8 @@ const getDataNodeList = async (year) => {
 
     const tables = await page.evaluate(loadData);
 
-    console.log(tables);
-
     await browser.close();
+    return tables;
 };
 
-export default getDataNodeList;
+export default getData;

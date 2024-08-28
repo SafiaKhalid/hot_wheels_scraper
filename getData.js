@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 
 const getDataNodeList = async (year) => {
-    const loadData = (year) => {
+    const loadData = () => {
         //Single table
         /* let yearModels = [];
 
@@ -19,7 +19,7 @@ const getDataNodeList = async (year) => {
             yearModels.push(object);
         }); */
 
-        let yearTest = [];
+        let yearArray = [];
 
         const tables = document.querySelectorAll('table:not(.mw-collapisble)');
 
@@ -53,11 +53,11 @@ const getDataNodeList = async (year) => {
                     }
                 });
 
-                yearTest.push(object);
+                yearArray.push(object);
             });
         });
 
-        return { yearTest };
+        return yearArray;
     };
 
     const browser = await puppeteer.launch({

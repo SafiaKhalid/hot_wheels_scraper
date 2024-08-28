@@ -6,35 +6,25 @@ const getData = async () => {
 
         let headingRows = [];
         let rowsArrays = [];
-        let tableArray = [];
+        let tableOption;
 
         tables.forEach((table) => {
-            /* let headings;
-                let rows; */
+            let headings;
+            let rows;
 
-            /* try {
-                    if (table.firstElementChild.nodeName == 'THEAD') {
-                        headings = table.querySelectorAll('tr > th');
-                        rows = table.querySelectorAll('tbody > tr');
-                        tableArray.push('true');
-                    } else {
-                        const headings = table.querySelector('tbody > tr:first-child');
-                    const rows = table.querySelectorAll(
-                        'tbody > tr:not(:first-child)'
-                    );
-                        tableArray.push('false');
-                    }
-                } catch (error) {
-                    console.log(error);
-                } */
-
-            tableArray.push(table.firstElementChild.nodeName);
-            const headings = table.querySelectorAll('tr > th');
-            const rows = table.querySelectorAll('tbody > tr');
+            if (table.firstElementChild.nodeName == 'thead') {
+                headings = table.querySelectorAll('tr > th');
+                rows = table.querySelectorAll('tbody > tr');
+                tableOption = 'heading and body';
+            } else {
+                headings = table.querySelectorAll('tr:first-child > td');
+                rows = table.querySelectorAll('tbody > tr');
+                tableOption = 'body';
+            }
 
             let headingNested = [];
             headings.forEach((heading) => {
-                headingNested.push(heading.innerText);
+                headingNested.push(heading.textContent);
             });
             headingRows.push(headingNested);
 
@@ -53,14 +43,14 @@ const getData = async () => {
 
                 headingRow.forEach((heading, headingIndex) => {
                     modelObject[heading] =
-                        row.querySelectorAll('td')[headingIndex].innerText;
+                        row.querySelectorAll('td')[headingIndex].textContent;
                 });
 
                 year_models.push(modelObject);
             });
         });
 
-        return { year_models, headingRows, tableArray };
+        return { year_models, tableOption };
     };
 
     const browser = await puppeteer.launch({
@@ -71,17 +61,13 @@ const getData = async () => {
     const page = await browser.newPage();
 
     await page.goto(
-        'https://hotwheels.fandom.com/wiki/List_of_1988_Hot_Wheels',
+        'https://hotwheels.fandom.com/wiki/List_of_1998_Hot_Wheels',
         {
             waitUntil: 'domcontentloaded',
         }
     );
 
-    const tables = await page.evaluate(
-        /* document.addEventListener('DOMContentLoaded', () => {}); */
-
-        loadData
-    );
+    const tables = await page.evaluate(loadData);
 
     console.log(tables);
 
@@ -90,6 +76,4 @@ const getData = async () => {
 
 export default getData;
 
-// check if first child of table is header
-// if is header, continue with element selection
-// if not (is part of body), save first row into header array, save rest of table in table content array
+//Check rest of dates

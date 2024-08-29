@@ -1,4 +1,5 @@
 import getData from './getData.js';
+import generateBook from './generateBook.js';
 
 let wikiData = [];
 
@@ -18,6 +19,7 @@ for (let i = 1974; i <= 1976; i++) {
     wikiData.push(object);
 }
 
-console.log(JSON.stringify(wikiData));
+/* console.log(JSON.stringify(wikiData)); */
+generateBook();
 
 //Save data to spreadsheet (excel?) with each year in different worksheet

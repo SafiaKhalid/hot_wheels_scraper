@@ -2,6 +2,14 @@ import ExcelJS from 'exceljs';
 
 const generateBook = (wikiData) => {
     console.log(wikiData);
+    let yearsArray = [];
+
+    wikiData.forEach((object) => {
+        yearsArray.push(Object.keys(object));
+    });
+
+    yearsArray = yearsArray.flat();
+    console.log('After flat', yearsArray);
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Default year');

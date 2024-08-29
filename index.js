@@ -21,4 +21,3 @@ for (let i = 1974; i <= 1976; i++) {
 console.log(JSON.stringify(wikiData));
 
 //Save data to spreadsheet (excel?) with each year in different worksheet
-//exceljs?

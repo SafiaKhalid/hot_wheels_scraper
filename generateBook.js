@@ -1,14 +1,30 @@
 import ExcelJS from 'exceljs';
 
 const generateBook = (wikiData) => {
-    let yearsArray = [];
+    console.log(JSON.stringify(wikiData));
 
-    wikiData.forEach((object) => {
-        yearsArray.push(Object.keys(object));
+    let yearsArray = [];
+    let headersObject = {};
+
+    wikiData.forEach((yearObject) => {
+        yearsArray.push(Object.keys(yearObject));
+        Object.values(yearObject).forEach((modelObjects) => {
+            let objectArray = [];
+
+            modelObjects.forEach((modelObject) => {
+                objectArray.push(Object.keys(modelObject));
+            });
+
+            objectArray = objectArray.flat();
+            objectArray = Array.from(new Set(objectArray));
+            headersObject[Object.keys(yearObject)[0]] = objectArray;
+        });
     });
 
     yearsArray = yearsArray.flat();
-    console.log('After flat', yearsArray);
+    console.log('After flat:', yearsArray);
+
+    console.log('Model keys: ', headersObject);
 
     const workbook = new ExcelJS.Workbook();
 

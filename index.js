@@ -11,15 +11,12 @@ let wikiData = [];
     wikiData.push(object);
 } */
 
-/* for (let i = 1974; i <= 1976; i++) {
+for (let i = 1974; i <= 1974; i++) {
     let object = {};
     let data = await getData(i);
     object[i] = data;
 
     wikiData.push(object);
-} */
+}
 
-/* console.log(JSON.stringify(wikiData)); */
-generateBook();
-
-//Save data to spreadsheet (excel?) with each year in different worksheet
+generateBook(wikiData);

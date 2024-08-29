@@ -29,7 +29,15 @@ const generateBook = (wikiData) => {
     const workbook = new ExcelJS.Workbook();
 
     yearsArray.forEach((year) => {
-        workbook.addWorksheet(year);
+        const worksheet = workbook.addWorksheet(year);
+        const headerArray = headersObject[year];
+
+        let columnArray = [];
+        headerArray.forEach((header) => {
+            columnArray.push({ header: header, key: header });
+        });
+
+        worksheet.columns = columnArray;
     });
 
     /* worksheet.columns = [
@@ -38,9 +46,9 @@ const generateBook = (wikiData) => {
         { header: 'D.O.B.', key: 'DOB', width: 10, outlineLevel: 1 },
     ]; */
 
-    /* workbook.xlsx
+    workbook.xlsx
         .writeFile('Test.xlsx')
-        .then(() => console.log('Workbook saved')); */
+        .then(() => console.log('Workbook saved'));
 };
 
 export default generateBook;

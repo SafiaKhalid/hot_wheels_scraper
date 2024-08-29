@@ -11,13 +11,13 @@ let wikiData = [];
     wikiData.push(object);
 } */
 
-for (let i = 1974; i <= 1976; i++) {
+/* for (let i = 1974; i <= 1976; i++) {
     let object = {};
     let data = await getData(i);
     object[i] = data;
 
     wikiData.push(object);
-}
+} */
 
 /* console.log(JSON.stringify(wikiData)); */
 generateBook();

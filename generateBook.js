@@ -1,7 +1,7 @@
 import ExcelJS from 'exceljs';
 
 const generateBook = (wikiData) => {
-    console.log(JSON.stringify(wikiData));
+    /* console.log(JSON.stringify(wikiData)); */
 
     let yearsArray = [];
     let headersObject = {};
@@ -28,27 +28,39 @@ const generateBook = (wikiData) => {
 
     const workbook = new ExcelJS.Workbook();
 
-    yearsArray.forEach((year) => {
+    yearsArray.forEach((year, index) => {
         const worksheet = workbook.addWorksheet(year);
         const headerArray = headersObject[year];
 
         let columnArray = [];
         headerArray.forEach((header) => {
-            columnArray.push({ header: header, key: header });
+            columnArray.push({
+                header: header,
+                key: header,
+                /* style: {
+                    fill: {
+                        type: 'pattern',
+                        pattern: 'solid',
+                        fgColor: {
+                            argb: 'FFFF0000',
+                        },
+                    },
+                }, */
+            });
         });
 
         worksheet.columns = columnArray;
+
+        const yearData = wikiData[index][year];
+        console.log('yearData: ', yearData);
     });
 
-    /* worksheet.columns = [
-        { header: 'Id', key: 'id', width: 10 },
-        { header: 'Name', key: 'name', width: 32 },
-        { header: 'D.O.B.', key: 'DOB', width: 10, outlineLevel: 1 },
-    ]; */
-
-    workbook.xlsx
+    /* workbook.xlsx
         .writeFile('Test.xlsx')
-        .then(() => console.log('Workbook saved'));
+        .then(() => console.log('Workbook saved')); */
 };
 
 export default generateBook;
+
+//Next - write all rows to worksheets, make sure each value matches to key/correct column
+//Column header styling (background colour)

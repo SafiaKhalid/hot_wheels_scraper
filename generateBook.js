@@ -1,8 +1,6 @@
 import ExcelJS from 'exceljs';
 
 const generateBook = (wikiData) => {
-    /* console.log(JSON.stringify(wikiData)); */
-
     let yearsArray = [];
     let headersObject = {};
 
@@ -22,9 +20,6 @@ const generateBook = (wikiData) => {
     });
 
     yearsArray = yearsArray.flat();
-    console.log('After flat:', yearsArray);
-
-    console.log('Model keys: ', headersObject);
 
     const workbook = new ExcelJS.Workbook();
 
@@ -37,35 +32,21 @@ const generateBook = (wikiData) => {
             columnArray.push({
                 header: header,
                 key: header,
-                /* style: {
-                    fill: {
-                        type: 'pattern',
-                        pattern: 'solid',
-                        fgColor: {
-                            argb: 'FFFF0000',
-                        },
-                    },
-                }, */
             });
         });
 
         worksheet.columns = columnArray;
 
         const models = wikiData[index][year];
-        console.log('models: ', models);
 
         models.forEach((model) => {
-            const modelArray = Object.entries(model);
-            console.log('modelArray: ', modelArray);
+            worksheet.addRow(model);
         });
     });
 
-    /* workbook.xlsx
+    workbook.xlsx
         .writeFile('Test.xlsx')
-        .then(() => console.log('Workbook saved')); */
+        .then(() => console.log('Workbook saved'));
 };
 
 export default generateBook;
-
-//Next - write all rows to worksheets, make sure each value matches to key/correct column
-//Column header styling (background colour)

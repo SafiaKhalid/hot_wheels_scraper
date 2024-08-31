@@ -51,8 +51,13 @@ const generateBook = (wikiData) => {
 
         worksheet.columns = columnArray;
 
-        const yearData = wikiData[index][year];
-        console.log('yearData: ', yearData);
+        const models = wikiData[index][year];
+        console.log('models: ', models);
+
+        models.forEach((model) => {
+            const modelArray = Object.entries(model);
+            console.log('modelArray: ', modelArray);
+        });
     });
 
     /* workbook.xlsx

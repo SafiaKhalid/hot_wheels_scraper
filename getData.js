@@ -2,23 +2,6 @@ import puppeteer from 'puppeteer';
 
 const getData = async (year) => {
     const loadData = () => {
-        //Single table
-        /* let yearModels = [];
-
-        const table = document.querySelector('table');
-        const headings = table.querySelectorAll('tr > th');
-        const rows = table.querySelectorAll('tr:not(:first-child)');
-
-        rows.forEach((row) => {
-            let object = {};
-
-            headings.forEach((heading, index) => {
-                object[heading.innerText] =
-                    row.querySelectorAll('td')[index].innerText;
-            });
-            yearModels.push(object);
-        }); */
-
         let yearArray = [];
 
         const tables = document.querySelectorAll('table:not(.mw-collapisble)');

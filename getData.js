@@ -30,7 +30,8 @@ const getData = async (year) => {
 
                     //Check if any items in row are undefined
                     if (rowContent[index]) {
-                        object[heading.innerText] = rowContent[index].innerText;
+                        object[heading.innerText.replace(/\s/g, '')] =
+                            rowContent[index].innerText;
                     } else {
                         object[heading.innerText] = '';
                     }

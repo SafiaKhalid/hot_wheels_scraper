@@ -69,6 +69,5 @@ const getData = async (year) => {
 
 export default getData;
 
-//Remove spaces from object keys
 //Ensure 1st row of model data is included
 //Ensure duplicate col# included

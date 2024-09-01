@@ -27,12 +27,16 @@ const getData = async (year) => {
 
                 headings.forEach((heading, index) => {
                     const rowContent = row.querySelectorAll('td');
-
+                    let headingTitle = heading.innerText;
+                    headingTitle = headingTitle.replace(/(^\w|\s\w)/g, (m) =>
+                        m.toUpperCase()
+                    );
                     //Check if any items in row are undefined
                     if (rowContent[index]) {
-                        object[heading.innerText] = rowContent[index].innerText;
+                        object[headingTitle.replace(/\s/g, '')] =
+                            rowContent[index].innerText;
                     } else {
-                        object[heading.innerText] = '';
+                        object[headingTitle] = '';
                     }
                 });
 
@@ -64,3 +68,6 @@ const getData = async (year) => {
 };
 
 export default getData;
+
+//Ensure 1st row of model data is included
+//Ensure duplicate col# included

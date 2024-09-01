@@ -27,13 +27,16 @@ const getData = async (year) => {
 
                 headings.forEach((heading, index) => {
                     const rowContent = row.querySelectorAll('td');
-
+                    let headingTitle = heading.innerText;
+                    headingTitle = headingTitle.replace(/(^\w|\s\w)/g, (m) =>
+                        m.toUpperCase()
+                    );
                     //Check if any items in row are undefined
                     if (rowContent[index]) {
-                        object[heading.innerText.replace(/\s/g, '')] =
+                        object[headingTitle.replace(/\s/g, '')] =
                             rowContent[index].innerText;
                     } else {
-                        object[heading.innerText] = '';
+                        object[headingTitle] = '';
                     }
                 });
 

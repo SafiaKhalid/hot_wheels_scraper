@@ -3,15 +3,10 @@ import generateBook from './generateBook.js';
 
 let wikiData = [];
 
-/* for (let i = 1974; i <= 2025; i++) {
-    let object = {};
-    let data = await getData(i);
-    object[i] = data;
-
-    wikiData.push(object);
-} */
-
-for (let i = 1994; i <= 1994; i++) {
+// Year range (inclusive)
+// Min year - 1974
+// Max year - 2025
+for (let i = 2010; i <= 2015; i++) {
     let object = {};
     let data = await getData(i);
     object[i] = data;
@@ -19,6 +14,7 @@ for (let i = 1994; i <= 1994; i++) {
     wikiData.push(object);
 }
 
-console.log(JSON.stringify(wikiData));
+// Log data to console
+/* console.log(JSON.stringify(wikiData)); */
 
-/* generateBook(wikiData); */
+generateBook(wikiData);

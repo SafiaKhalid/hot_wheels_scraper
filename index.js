@@ -11,7 +11,7 @@ let wikiData = [];
     wikiData.push(object);
 } */
 
-for (let i = 1994; i <= 1994; i++) {
+for (let i = 2000; i <= 2025; i++) {
     let object = {};
     let data = await getData(i);
     object[i] = data;
@@ -19,6 +19,6 @@ for (let i = 1994; i <= 1994; i++) {
     wikiData.push(object);
 }
 
-console.log(JSON.stringify(wikiData));
+/* console.log(JSON.stringify(wikiData)); */
 
-/* generateBook(wikiData); */
+generateBook(wikiData);

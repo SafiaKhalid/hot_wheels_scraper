@@ -61,6 +61,8 @@ const getData = async (year) => {
         }
     );
 
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     const tables = await page.evaluate(loadData);
 
     await browser.close();

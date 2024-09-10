@@ -45,7 +45,7 @@ const generateBook = (wikiData) => {
     });
 
     workbook.xlsx
-        .writeFile('Test.xlsx')
+        .writeFile('HW-Workbook.xlsx')
         .then(() => console.log('Workbook saved'));
 };
 

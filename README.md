@@ -27,3 +27,12 @@ workbook.xlsx
         .writeFile('HW-Workbook.xlsx')
         .then(() => console.log('Workbook saved'));
 ```
+
+### Running scrapper
+
+Run in terminal:
+
+
+```
+node index.js
+```

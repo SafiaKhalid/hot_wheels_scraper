@@ -36,3 +36,5 @@ Run in terminal:
 ```
 node index.js
 ```
+
+![hw](https://github.com/user-attachments/assets/98816b6b-5dc9-46e9-84d7-8a7a781250fc)
